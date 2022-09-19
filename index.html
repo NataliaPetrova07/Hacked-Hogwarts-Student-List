@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hacked Hogwarts Student List</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="dark_header">
+        <p>Hogwarts logo</p>
+        <input type="text" id="site-search" placeholder="Type student’s name" /> <button>SEARCH</button>
+      </div>
+      <div id="filters">
+        <button class="filter" data-action="filter" data-filter="all">All students</button>
+        <button class="filter" data-action="filter" data-filter="expelled">Expelled students</button>
+        <div id="houses">
+          <label for="houses">Houses</label>
+          <div class="dropdown">
+            <button class="filter" data-action="filter" data-filter="slytherin">Slytherin</button>
+            <button class="filter" data-action="filter" data-filter="hufflepuff">Hufflepuff</button>
+            <button class="filter" data-action="filter" data-filter="gryffindor">Gryffindor</button>
+            <button class="filter" data-action="filter" data-filter="ravenclaw">Ravenclaw</button>
+          </div>
+        </div>
+        <div id="bloodline">
+          <label for="bloodline">Blood Status</label>
+          <div class="dropdown">
+            <button class="filter" data-action="filter" data-filter="muggles">Muggles</button>
+            <button class="filter" data-action="filter" data-filter="pureblood">Pure Blood</button>
+          </div>
+        </div>
+        <button class="filter" data-action="filter" data-filter="squad">Inquisitorial Squad</button>
+        <button class="filter" data-action="filter" data-filter="prefects">Prefects</button>
+      </div>
+    </header>
+    <main>
+      <h1>Student List</h1>
+      <div id="list_info">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+          <path
+            d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
+          />
+        </svg>
+        <div>
+          <p>Number of students in the list: <span id="current_students_nr">30</span></p>
+          <div class="info_flex">
+            <p>Expelled: <span id="expelled_students_nr">30</span></p>
+            <p>Non-expelled: 0 <span id="nonexpelled_students_nr">30</span></p>
+            <p>Gryffindor: <span id="gryffindor_students_nr">30</span></p>
+            <p>Slytherin: <span id="slytherin_students_nr">30</span></p>
+            <p>Ravenclaw: <span id="ravenclaw_students_nr">30</span></p>
+            <p>Hufflepuff: <span id="hufflepuff_students_nr">30</span></p>
+          </div>
+        </div>
+      </div>
+      <div id="list_sorting">
+        <div class="sorting">
+          <button data-action="sort" data-sort-direction="asc" data-sort="firstName">First name</button>
+          <button data-action="sort" data-sort-direction="asc" data-sort="lastName">Last name</button>
+          <button data-action="sort" data-sort-direction="asc" data-sort="house">House</button>
+        </div>
+      </div>
+      <template id="student">
+        <tr>
+          <td data-field="firstName">name</td>
+          <td data-field="lastName">name</td>
+          <td data-field="house">house</td>
+          <td data-field="prefect">icon</td>
+          <td data-field="squad">icon</td>
+          <button class="expelbtn">Expel</button>
+        </tr></template
+      >
+    </main>
+    <footer>Natália Petrová 2022</footer>
+    <script src="script.js"></script>
+  </body>
+</html>
