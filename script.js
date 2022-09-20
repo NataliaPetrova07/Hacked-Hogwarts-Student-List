@@ -94,8 +94,30 @@ function getNameParts(jsonData) {
   });
 
   console.table(allStudents);
+  displayList();
 }
 
 function capitalize(str) {
   return str[0].toUpperCase() + str.slice(1).toLowerCase();
+}
+
+function displayList() {
+  // clear the list
+  document.querySelectorAll("td").innerHTML = "";
+
+  // build a new list
+  allStudents.forEach(displayStudent);
+}
+
+function displayStudent(student) {
+  // create clone
+  const clone = document.querySelector("template#student").content.cloneNode(true);
+
+  // set clone data
+  clone.querySelector("[data-field=firstName]").textContent = student.firstName;
+  clone.querySelector("[data-field=lastName]").textContent = student.lastName;
+  clone.querySelector("[data-field=house]").textContent = student.house;
+
+  // append clone to list
+  document.querySelector("#list").appendChild(clone);
 }

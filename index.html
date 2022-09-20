@@ -49,7 +49,7 @@
           <p>Number of students in the list: <span id="current_students_nr">30</span></p>
           <div class="info_flex">
             <p>Expelled: <span id="expelled_students_nr">30</span></p>
-            <p>Non-expelled: 0 <span id="nonexpelled_students_nr">30</span></p>
+            <p>Non-expelled: <span id="nonexpelled_students_nr">30</span></p>
             <p>Gryffindor: <span id="gryffindor_students_nr">30</span></p>
             <p>Slytherin: <span id="slytherin_students_nr">30</span></p>
             <p>Ravenclaw: <span id="ravenclaw_students_nr">30</span></p>
@@ -64,6 +64,9 @@
           <button data-action="sort" data-sort-direction="asc" data-sort="house">House</button>
         </div>
       </div>
+      <ul id="list">
+        <!-- animal template will be cloned and inserted here -->
+      </ul>
       <template id="student">
         <tr>
           <td data-field="firstName">name</td>
