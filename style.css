@@ -63,16 +63,18 @@ footer {
   align-items: center; */
 }
 
-#list {
+/* #list {
   display: grid;
   grid-template-columns: 1fr auto;
   row-gap: 20px;
   align-items: center;
-}
+} */
 
 tr {
   display: grid;
-  grid-template-columns: 50px 1fr 1fr 1fr 50px 50px;
+  align-items: center;
+  row-gap: 20px;
+  grid-template-columns: 50px 1fr 1fr 1fr 50px 50px 1fr;
 }
 
 .expelbtn {

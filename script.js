@@ -10,21 +10,30 @@ const Student = {
   house: "-unknown-",
 };
 
+const settings = {
+  filter: "all",
+  //   sortBy: "name",
+  //   sortDir: "asc",
+};
+
 const allStudents = [];
 
 function start() {
   console.log("ready");
   loadJSON();
+  registerButtons();
 }
 
-function loadJSON() {
-  fetch(url)
-    .then((response) => response.json())
-    .then((jsonData) => {
-      // when loaded, prepare objects
-      console.table(jsonData);
-      getNameParts(jsonData);
-    });
+function registerButtons() {
+  document.querySelectorAll("[data-action='filter']").forEach((button) => button.addEventListener("click", selectFilter));
+
+  document.querySelectorAll("[data-action='sort']").forEach((button) => button.addEventListener("click", selectSort));
+}
+
+async function loadJSON() {
+  const response = await fetch(url);
+  const jsonData = await response.json();
+  getNameParts(jsonData);
 }
 
 function getNameParts(jsonData) {
@@ -94,19 +103,73 @@ function getNameParts(jsonData) {
   });
 
   console.table(allStudents);
-  displayList();
+  displayList(allStudents);
 }
 
 function capitalize(str) {
   return str[0].toUpperCase() + str.slice(1).toLowerCase();
 }
 
-function displayList() {
-  // clear the list
-  document.querySelectorAll("td").innerHTML = "";
+function selectFilter(event) {
+  const filter = event.target.dataset.filter;
+  console.log(`User selected ${filter}`);
+  // filterList(filter);
+  setFilter(filter);
+}
 
+function setFilter(filter) {
+  settings.filterBy = filter;
+  console.log("settings.filterBy:", settings.filterBy);
+  buildList();
+}
+
+function filterList(filteredList) {
+  //   let filteredList = allStudents;
+  if (settings.filterBy === "slytherin") {
+    filteredList = allStudents.filter(isSlytherin);
+  } else if (settings.filterBy === "hufflepuff") {
+    filteredList = allStudents.filter(isHufflepuff);
+  } else if (settings.filterBy === "gryffindor") {
+    filteredList = allStudents.filter(isGryffindor);
+  } else if (settings.filterBy === "ravenclaw") {
+    filteredList = allStudents.filter(isRavenclaw);
+  }
+  console.log("allStudents:", allStudents);
+  console.log("filtered list:", filteredList);
+  return filteredList;
+}
+
+function isSlytherin(student) {
+  return student.house === "Slytherin";
+}
+
+function isHufflepuff(student) {
+  return student.house === "Hufflepuff";
+}
+
+function isGryffindor(student) {
+  return student.house === "Gryffindor";
+}
+
+function isRavenclaw(student) {
+  return student.house === "Ravenclaw";
+}
+
+function buildList() {
+  const currentList = filterList(allStudents);
+  // const sortedList = sortList(currentList);
+  console.log("current list:", currentList);
+  //   displayList(sortedList);
+  displayList(currentList);
+}
+
+function displayList(currentList) {
+  // clear the list
+  document.querySelectorAll("tr").forEach((element) => {
+    element.remove();
+  });
   // build a new list
-  allStudents.forEach(displayStudent);
+  currentList.forEach(displayStudent);
 }
 
 function displayStudent(student) {
