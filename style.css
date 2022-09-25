@@ -122,6 +122,8 @@ tr {
 .info,
 .close,
 .expelbtn,
-.filter {
+.filter,
+.btn,
+button {
   cursor: pointer;
 }
