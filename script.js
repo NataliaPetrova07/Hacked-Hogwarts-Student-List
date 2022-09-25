@@ -187,9 +187,7 @@ function displayStudent(student) {
 }
 
 function closeModal() {
-  document.querySelector("div.close").addEventListener("click", () => {
-    document.querySelector("#popup").classList.add("hidden");
-  });
+  document.querySelector("#popup").classList.add("hidden");
 }
 
 function openModal(student) {
@@ -203,4 +201,5 @@ function openModal(student) {
   document.querySelector("p.squad").textContent = `Member of inquisitorial squad: no`;
   document.querySelector("p.house").textContent = `House: ${student.house}`;
   document.querySelector("p.expelled").textContent = `Expelled: no`;
+  document.querySelector("div.close").addEventListener("click", closeModal);
 }
