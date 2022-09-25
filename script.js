@@ -27,7 +27,7 @@ function start() {
 
 function registerButtons() {
   document.querySelectorAll("[data-action='filter']").forEach((button) => button.addEventListener("click", selectFilter));
-  // document.querySelectorAll("[data-action='sort']").forEach((button) => button.addEventListener("click", selectSort));
+  document.querySelectorAll("[data-action='sort']").forEach((button) => button.addEventListener("click", selectSort));
 }
 
 async function loadJSON() {
