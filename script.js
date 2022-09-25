@@ -13,8 +13,8 @@ const Student = {
 
 const settings = {
   filter: "all",
-  //   sortBy: "name",
-  //   sortDir: "asc",
+  sortBy: "name",
+  sortDir: "asc",
 };
 
 const allStudents = [];
@@ -120,6 +120,8 @@ function capitalize(str) {
   return str[0].toUpperCase() + str.slice(1).toLowerCase();
 }
 
+// FILTERING
+
 function selectFilter(event) {
   const filter = event.target.dataset.filter;
   console.log(`User selected ${filter}`);
@@ -165,12 +167,64 @@ function isRavenclaw(student) {
   return student.house === "Ravenclaw";
 }
 
+// SORTING
+
+function selectSort(event) {
+  const sortBy = event.target.dataset.sort;
+  const sortDir = event.target.dataset.sortDirection;
+  console.log("sortBy: ", sortBy);
+  console.log("sortDir: ", sortDir);
+
+  // find "old" sortby element, and remove .sortBy
+  const oldElement = document.querySelector(`[data-sort='${sortBy}']`);
+  oldElement.classList.remove("sortby");
+  console.log("oldElement: ", oldElement);
+
+  // indicate active sort
+  event.target.classList.add("sortby");
+
+  // toggle the direction!
+  if (sortDir === "asc") {
+    event.target.dataset.sortDirection = "desc";
+  } else {
+    event.target.dataset.sortDirection = "asc";
+  }
+  console.log(`User selected ${sortBy} - ${sortDir}`);
+  setSort(sortBy, sortDir);
+}
+
+function setSort(sortBy, sortDir) {
+  settings.sortBy = sortBy;
+  settings.sortDir = sortDir;
+  buildList();
+}
+
+function sortList(sortedList) {
+  let direction = 1;
+  if (settings.sortDir === "desc") {
+    direction = -1;
+  } else {
+    settings.direction = 1;
+  }
+
+  sortedList = sortedList.sort(sortByProperty);
+
+  function sortByProperty(studentA, studentB) {
+    if (studentA[settings.sortBy] < studentB[settings.sortBy]) {
+      return -1 * direction;
+    } else {
+      return 1 * direction;
+    }
+  }
+
+  return sortedList;
+}
+
 function buildList() {
   const currentList = filterList(allStudents);
-  // const sortedList = sortList(currentList);
+  const sortedList = sortList(currentList);
   console.log("current list:", currentList);
-  //   displayList(sortedList);
-  displayList(currentList);
+  displayList(sortedList);
 }
 
 function displayList(currentList) {
