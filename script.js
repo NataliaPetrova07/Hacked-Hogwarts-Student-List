@@ -170,7 +170,6 @@ function displayList(currentList) {
   // build a new list
   currentList.forEach(displayStudent);
   closeModal();
-  openModal();
 }
 
 function displayStudent(student) {
@@ -182,6 +181,7 @@ function displayStudent(student) {
   clone.querySelector("[data-field=lastName]").textContent = student.lastName;
   clone.querySelector("[data-field=house]").textContent = student.house;
 
+  clone.querySelector("[data-field=student_info]").addEventListener("click", () => openModal(student));
   // append clone to list
   document.querySelector("#list").appendChild(clone);
 }
@@ -192,15 +192,15 @@ function closeModal() {
   });
 }
 
-function openModal() {
-  // document.querySelectorAll("[data-field=student_info]").forEach((icon) =>
-  //   icon.addEventListener("click", () => {
-  //     console.log("click student info");
-  //     document.querySelector("#popup").classList.remove("hidden");
-  //   })
-  // );
-  document.querySelector("[data-field=student_info]").addEventListener("click", () => {
-    console.log("click student info");
-    document.querySelector("#popup").classList.remove("hidden");
-  });
+function openModal(student) {
+  document.querySelector("#popup").classList.remove("hidden");
+  document.querySelector("p.firstName").textContent = `First name: ${student.firstName}`;
+  document.querySelector("p.middleName").textContent = `Middle name: ${student.middleName}`;
+  document.querySelector("p.lastName").textContent = `Last name: ${student.lastName}`;
+  document.querySelector("p.nickName").textContent = `Nickname: ${student.nickName}`;
+  document.querySelector("p.bloodStatus").textContent = `Blood Status: pure`;
+  document.querySelector("p.prefect").textContent = `Prefect: no`;
+  document.querySelector("p.squad").textContent = `Member of inquisitorial squad: no`;
+  document.querySelector("p.house").textContent = `House: ${student.house}`;
+  document.querySelector("p.expelled").textContent = `Expelled: no`;
 }
