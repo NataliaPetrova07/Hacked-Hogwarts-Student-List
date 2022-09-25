@@ -8,6 +8,7 @@ const Student = {
   middleName: "-unknown-",
   lastName: "-unknown-",
   house: "-unknown-",
+  portrait: "",
 };
 
 const settings = {
@@ -26,7 +27,7 @@ function start() {
 
 function registerButtons() {
   document.querySelectorAll("[data-action='filter']").forEach((button) => button.addEventListener("click", selectFilter));
-  document.querySelectorAll("[data-action='sort']").forEach((button) => button.addEventListener("click", selectSort));
+  // document.querySelectorAll("[data-action='sort']").forEach((button) => button.addEventListener("click", selectSort));
 }
 
 async function loadJSON() {
@@ -54,6 +55,7 @@ function getNameParts(jsonData) {
     let firstName = "";
     let middleName = "";
     let lastName = "";
+
     if (words.length == 2) {
       firstName = words[0];
       middleName = undefined;
@@ -96,6 +98,15 @@ function getNameParts(jsonData) {
     student.lastName = lastName;
     student.nickname = nickname;
     student.house = house;
+
+    if (lastName !== undefined) {
+      student.portrait = "images/" + student.lastName.toLowerCase() + "_" + student.firstName[0].toLowerCase() + ".png";
+      if (jsonObject.fullname.includes("-")) {
+        let twoNames = lastName.split("-");
+        let secondName = twoNames[1].toLowerCase();
+        student.portrait = "images/" + secondName + "_" + student.firstName[0].toLowerCase() + ".png";
+      }
+    }
 
     // Add the object to the global array
     allStudents.push(student);
@@ -192,6 +203,7 @@ function closeModal() {
 
 function openModal(student) {
   document.querySelector("#popup").classList.remove("hidden");
+  document.querySelector("img.student_img").src = student.portrait;
   document.querySelector("p.firstName").textContent = `First name: ${student.firstName}`;
   document.querySelector("p.middleName").textContent = `Middle name: ${student.middleName}`;
   document.querySelector("p.lastName").textContent = `Last name: ${student.lastName}`;
