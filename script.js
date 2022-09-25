@@ -26,7 +26,6 @@ function start() {
 
 function registerButtons() {
   document.querySelectorAll("[data-action='filter']").forEach((button) => button.addEventListener("click", selectFilter));
-
   document.querySelectorAll("[data-action='sort']").forEach((button) => button.addEventListener("click", selectSort));
 }
 
@@ -170,6 +169,8 @@ function displayList(currentList) {
   });
   // build a new list
   currentList.forEach(displayStudent);
+  closeModal();
+  openModal();
 }
 
 function displayStudent(student) {
@@ -183,4 +184,23 @@ function displayStudent(student) {
 
   // append clone to list
   document.querySelector("#list").appendChild(clone);
+}
+
+function closeModal() {
+  document.querySelector("div.close").addEventListener("click", () => {
+    document.querySelector("#popup").classList.add("hidden");
+  });
+}
+
+function openModal() {
+  // document.querySelectorAll("[data-field=student_info]").forEach((icon) =>
+  //   icon.addEventListener("click", () => {
+  //     console.log("click student info");
+  //     document.querySelector("#popup").classList.remove("hidden");
+  //   })
+  // );
+  document.querySelector("[data-field=student_info]").addEventListener("click", () => {
+    console.log("click student info");
+    document.querySelector("#popup").classList.remove("hidden");
+  });
 }
