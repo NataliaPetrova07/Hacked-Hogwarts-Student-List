@@ -110,9 +110,7 @@ function capitalize(str) {
   return str[0].toUpperCase() + str.slice(1).toLowerCase();
 }
 
-
 // FILTERING
-
 
 function selectFilter(event) {
   const filter = event.target.dataset.filter;
@@ -164,6 +162,7 @@ function isRavenclaw(student) {
 function selectSort(event) {
   const sortBy = event.target.dataset.sort;
   const sortDir = event.target.dataset.sortDirection;
+  console.log("click sort");
 
   // find "old" sortby element, and remove .sortBy
   const oldElement = document.querySelector(`[data-sort='${settings.sortBy}']`);
@@ -174,9 +173,9 @@ function selectSort(event) {
 
   // toggle the direction!
   if (sortDir === "asc") {
-      event.target.dataset.sortDirection = "desc";
+    event.target.dataset.sortDirection = "desc";
   } else {
-      event.target.dataset.sortDirection = "asc";
+    event.target.dataset.sortDirection = "asc";
   }
   console.log(`User selected ${sortBy} - ${sortDir}`);
   setSort(sortBy, sortDir);
@@ -189,23 +188,21 @@ function setSort(sortBy, sortDir) {
 }
 
 function sortList(sortedList) {
-  // let sortedList = allAnimals;
   let direction = 1;
   if (settings.sortDir === "desc") {
-      direction = -1;
+    direction = -1;
   } else {
-      settings.direction = 1;
+    settings.direction = 1;
   }
 
   sortedList = sortedList.sort(sortByProperty);
 
-
-  function sortByProperty(animalA, animalB) {
-      if (animalA[settings.sortBy] < animalB[settings.sortBy]) {
-          return -1 * direction;
-      } else {
-          return 1 * direction;
-      }
+  function sortByProperty(studentA, studentB) {
+    if (studentA[settings.sortBy] < studentB[settings.sortBy]) {
+      return -1 * direction;
+    } else {
+      return 1 * direction;
+    }
   }
 
   return sortedList;
