@@ -24,6 +24,8 @@ const settings = {
 };
 
 const allStudents = [];
+const expelledStudents = [];
+let nonExpelledStudents = [];
 
 function start() {
   console.log("ready");
@@ -68,12 +70,30 @@ function searchFilter(searchValueString) {
 
 // ABOUT
 function showAbout(list) {
-  console.log(list.filter(isGryffindor).length);
   document.querySelector("#current_students_nr").textContent = list.length;
   document.querySelector("#gryffindor_students_nr").textContent = list.filter(isGryffindor).length;
   document.querySelector("#slytherin_students_nr").textContent = list.filter(isSlytherin).length;
   document.querySelector("#ravenclaw_students_nr").textContent = list.filter(isRavenclaw).length;
   document.querySelector("#hufflepuff_students_nr").textContent = list.filter(isHufflepuff).length;
+  document.querySelector("#nonexpelled_students_nr").textContent = nonExpelledStudents.length;
+  document.querySelector("#expelled_students_nr").textContent = expelledStudents.length;
+}
+
+// EXPEL STUDENT
+function expelStudent(student) {
+  console.log("clicked to expel");
+  tryToExpel(student);
+}
+
+function tryToExpel(selectedStudent) {
+  console.log("selectedStudent: ", selectedStudent);
+  selectedStudent.expelled = true;
+  expelledStudents.push(selectedStudent);
+  nonExpelledStudents = allStudents.filter((student) => student.expelled === false);
+  console.log("expelledStudents: ", expelledStudents.length);
+  console.log("nonExpelledStudents: ", nonExpelledStudents.length);
+  displayList(nonExpelledStudents);
+  showAbout(nonExpelledStudents);
 }
 
 async function loadJSON() {
@@ -111,7 +131,7 @@ function getNameParts(jsonData) {
       middleName = words[1];
       lastName = words[2];
     }
-    console.log(firstName, middleName, lastName);
+    // console.log(firstName, middleName, lastName);
 
     house = jsonObject.house.trim();
     firstName = firstName.trim();
@@ -160,7 +180,7 @@ function getNameParts(jsonData) {
 
   console.table(allStudents);
   displayList(allStudents);
-  showAbout(allStudents)
+  showAbout(allStudents);
 }
 
 function capitalize(str) {
@@ -193,8 +213,8 @@ function filterList(filteredList) {
   } else if (settings.filterBy === "ravenclaw") {
     filteredList = allStudents.filter(isRavenclaw);
   }
-  console.log("allStudents:", allStudents);
-  console.log("filtered list:", filteredList);
+  // console.log("allStudents:", allStudents);
+  // console.log("filtered list:", filteredList);
   return filteredList;
 }
 
@@ -270,7 +290,7 @@ function sortList(sortedList) {
 function buildList() {
   const currentList = filterList(allStudents);
   const sortedList = sortList(currentList);
-  console.log("current list:", currentList);
+  console.log("nonExpelledStudents:", nonExpelledStudents);
   showAbout(sortedList);
   displayList(sortedList);
 }
@@ -295,6 +315,9 @@ function displayStudent(student) {
   clone.querySelector("[data-field=house]").textContent = student.house;
 
   clone.querySelector("[data-field=student_info]").addEventListener("click", () => openModal(student));
+
+  clone.querySelector(".expelbtn").addEventListener("click", () => expelStudent(student));
+
   // append clone to list
   document.querySelector("#list").appendChild(clone);
 }
