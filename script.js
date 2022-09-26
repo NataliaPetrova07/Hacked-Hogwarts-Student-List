@@ -63,6 +63,17 @@ function searchFilter(searchValueString) {
     }
   }
   displayList(searchArray);
+  showAbout(searchArray);
+}
+
+// ABOUT
+function showAbout(list) {
+  console.log(list.filter(isGryffindor).length);
+  document.querySelector("#current_students_nr").textContent = list.length;
+  document.querySelector("#gryffindor_students_nr").textContent = list.filter(isGryffindor).length;
+  document.querySelector("#slytherin_students_nr").textContent = list.filter(isSlytherin).length;
+  document.querySelector("#ravenclaw_students_nr").textContent = list.filter(isRavenclaw).length;
+  document.querySelector("#hufflepuff_students_nr").textContent = list.filter(isHufflepuff).length;
 }
 
 async function loadJSON() {
@@ -149,6 +160,7 @@ function getNameParts(jsonData) {
 
   console.table(allStudents);
   displayList(allStudents);
+  showAbout(allStudents)
 }
 
 function capitalize(str) {
@@ -259,6 +271,7 @@ function buildList() {
   const currentList = filterList(allStudents);
   const sortedList = sortList(currentList);
   console.log("current list:", currentList);
+  showAbout(sortedList);
   displayList(sortedList);
 }
 
