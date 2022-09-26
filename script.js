@@ -3,12 +3,18 @@
 window.addEventListener("DOMContentLoaded", start);
 
 const url = "https://petlatkea.dk/2021/hogwarts/students.json";
+const url2 = "https://petlatkea.dk/2021/hogwarts/families.json";
+
 const Student = {
   firstName: "-unknown-",
   middleName: "-unknown-",
   lastName: "-unknown-",
   house: "-unknown-",
   portrait: "",
+  bloodStatus: "",
+  prefect: false,
+  expelled: false,
+  squad: false,
 };
 
 const settings = {
@@ -28,6 +34,35 @@ function start() {
 function registerButtons() {
   document.querySelectorAll("[data-action='filter']").forEach((button) => button.addEventListener("click", selectFilter));
   document.querySelectorAll("[data-action='sort']").forEach((button) => button.addEventListener("click", selectSort));
+  document.querySelector("#site_search").addEventListener("keyup", searchFieldInput);
+}
+
+// SEARCH FIELD
+
+function searchFieldInput() {
+  const searchValue = document.querySelector("#site_search").value;
+  console.log(searchValue);
+  if (searchValue != "") {
+    let searchValueString = capitalize(searchValue);
+    searchFilter(searchValueString);
+  } else {
+    displayList(allStudents);
+  }
+}
+
+function searchFilter(searchValueString) {
+  let searchArray = [];
+  allStudents.forEach(checking);
+  function checking(student) {
+    console.log(student.firstName);
+    if (student.firstName.includes(searchValueString)) {
+      searchArray.push(student);
+    }
+    if (student.lastName !== undefined && student.lastName.includes(searchValueString) && student.lastName.includes(searchValueString) !== student.firstName.includes(searchValueString)) {
+      searchArray.push(student);
+    }
+  }
+  displayList(searchArray);
 }
 
 async function loadJSON() {
