@@ -127,3 +127,14 @@ tr {
 button {
   cursor: pointer;
 }
+
+@media only screen and (max-width: 1024px) {
+  :root {
+    --margin-desktop: 100px;
+  }
+}
+@media only screen and (max-width: 700px) {
+  :root {
+    --margin-desktop: 10px;
+  }
+}

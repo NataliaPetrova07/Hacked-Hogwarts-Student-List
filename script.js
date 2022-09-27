@@ -75,17 +75,11 @@ function showAbout(list) {
   document.querySelector("#slytherin_students_nr").textContent = list.filter(isSlytherin).length;
   document.querySelector("#ravenclaw_students_nr").textContent = list.filter(isRavenclaw).length;
   document.querySelector("#hufflepuff_students_nr").textContent = list.filter(isHufflepuff).length;
-  document.querySelector("#nonexpelled_students_nr").textContent = nonExpelledStudents.length;
   document.querySelector("#expelled_students_nr").textContent = expelledStudents.length;
 }
 
 // EXPEL STUDENT
-function expelStudent(student) {
-  console.log("clicked to expel");
-  tryToExpel(student);
-}
-
-function tryToExpel(selectedStudent) {
+function expelStudent(selectedStudent) {
   console.log("selectedStudent: ", selectedStudent);
   selectedStudent.expelled = true;
   expelledStudents.push(selectedStudent);
@@ -212,6 +206,10 @@ function filterList(filteredList) {
     filteredList = allStudents.filter(isGryffindor);
   } else if (settings.filterBy === "ravenclaw") {
     filteredList = allStudents.filter(isRavenclaw);
+  } else if (settings.filterBy === "prefects") {
+    filteredList = allStudents.filter(isPrefect);
+  } else if (settings.filterBy === "expelled") {
+    filteredList = allStudents.filter(isExpelled);
   }
   // console.log("allStudents:", allStudents);
   // console.log("filtered list:", filteredList);
@@ -232,6 +230,14 @@ function isGryffindor(student) {
 
 function isRavenclaw(student) {
   return student.house === "Ravenclaw";
+}
+
+function isPrefect(student) {
+  return student.prefect === true;
+}
+
+function isExpelled(student) {
+  return student.expelled === true;
 }
 
 // SORTING
@@ -290,7 +296,6 @@ function sortList(sortedList) {
 function buildList() {
   const currentList = filterList(allStudents);
   const sortedList = sortList(currentList);
-  console.log("nonExpelledStudents:", nonExpelledStudents);
   showAbout(sortedList);
   displayList(sortedList);
 }
@@ -315,13 +320,18 @@ function displayStudent(student) {
   clone.querySelector("[data-field=house]").textContent = student.house;
 
   clone.querySelector("[data-field=student_info]").addEventListener("click", () => openModal(student));
-
   clone.querySelector(".expelbtn").addEventListener("click", () => expelStudent(student));
+  clone.querySelector("[data-field=prefect]").addEventListener("click", () => clickPrefect(student));
+
+  if (student.expelled === true) {
+    clone.querySelector(".expelbtn").classList.add("hidden");
+  }
 
   // append clone to list
   document.querySelector("#list").appendChild(clone);
 }
 
+// MODAL / POPUP
 function closeModal() {
   document.querySelector("#popup").classList.add("hidden");
 }
@@ -339,4 +349,59 @@ function openModal(student) {
   document.querySelector("p.house").textContent = `House: ${student.house}`;
   document.querySelector("p.expelled").textContent = `Expelled: no`;
   document.querySelector("div.close").addEventListener("click", closeModal);
+}
+
+// MAKE PREFECT
+function clickPrefect(student) {
+  console.log("user clicked prefect");
+  if (student.prefect === true) {
+    student.prefect = false;
+  } else {
+    makePrefect(student);
+  }
+}
+
+function makePrefect(student) {
+  console.log("making a prefect");
+  let slytherinPrefects = allStudents.filter(isSlytherin);
+  let hufflepuffPrefects = allStudents.filter(isHufflepuff);
+  let gryffindorPrefects = allStudents.filter(isGryffindor);
+  let ravenclawPrefects = allStudents.filter(isRavenclaw);
+  slytherinPrefects = slytherinPrefects.filter(isPrefect);
+  hufflepuffPrefects = hufflepuffPrefects.filter(isPrefect);
+  gryffindorPrefects = gryffindorPrefects.filter(isPrefect);
+  ravenclawPrefects = ravenclawPrefects.filter(isPrefect);
+  const numberOfSlytherinPrefects = slytherinPrefects.length;
+  const numberOfHufflepuffPrefects = hufflepuffPrefects.length;
+  const numberOfGryffindorPrefects = gryffindorPrefects.length;
+  const numberOfRavenclawPrefects = ravenclawPrefects.length;
+  if (student.house === "Slytherin") {
+    if (numberOfSlytherinPrefects >= 2) {
+      alert("there can only be 2 prefects in the same house");
+    } else {
+      student.prefect = true;
+    }
+  }
+  if (student.house === "Hufflepuff") {
+    if (numberOfHufflepuffPrefects >= 2) {
+      alert("there can only be 2 prefects in the same house");
+    } else {
+      student.prefect = true;
+    }
+  }
+  if (student.house === "Gryffindor") {
+    if (numberOfGryffindorPrefects >= 2) {
+      alert("there can only be 2 prefects in the same house");
+    } else {
+      student.prefect = true;
+    }
+  }
+  if (student.house === "Ravenclaw") {
+    if (numberOfRavenclawPrefects >= 2) {
+      alert("there can only be 2 prefects in the same house");
+    } else {
+      student.prefect = true;
+    }
+  }
+  buildList();
 }
