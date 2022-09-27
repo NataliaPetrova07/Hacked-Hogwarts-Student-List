@@ -26,11 +26,13 @@ const settings = {
 const allStudents = [];
 const expelledStudents = [];
 let nonExpelledStudents = [];
+let bloodStatusJSON = {};
 
-function start() {
+async function start() {
   console.log("ready");
-  loadJSON();
   registerButtons();
+  await loadBloodStatusJSON();
+  await loadStudentsJSON();
 }
 
 function registerButtons() {
@@ -89,10 +91,16 @@ function expelStudent(selectedStudent) {
   displayList(nonExpelledStudents);
   showAbout(nonExpelledStudents);
 }
+async function loadBloodStatusJSON() {
+  const response = await fetch(url2);
+  let jsonData = await response.json();
 
-async function loadJSON() {
+  bloodStatusJSON = jsonData;
+}
+async function loadStudentsJSON() {
   const response = await fetch(url);
-  const jsonData = await response.json();
+  let jsonData = await response.json();
+
   getNameParts(jsonData);
 }
 
@@ -110,7 +118,7 @@ function getNameParts(jsonData) {
     const lastSpace = fullname.lastIndexOf(" ");
     const firstticks = fullname.indexOf(`"`);
     const lastticks = fullname.lastIndexOf(`"`);
-    const bloodStatus = jsonObject.bloodStatus;
+    let bloodStatus = jsonObject.bloodStatus;
 
     let nickname = fullname.substring(firstticks + 1, lastticks);
     let firstName = "";
@@ -159,7 +167,7 @@ function getNameParts(jsonData) {
     student.lastName = lastName;
     student.nickname = nickname;
     student.house = house;
-    student.bloodStatus = "Muggles";
+    student.bloodStatus = getBloodStatus(student);
 
     if (lastName !== undefined) {
       student.portrait = "images/" + student.lastName.toLowerCase() + "_" + student.firstName[0].toLowerCase() + ".png";
@@ -172,11 +180,24 @@ function getNameParts(jsonData) {
 
     // Add the object to the global array
     allStudents.push(student);
+
+    return student;
   });
 
   console.table(allStudents);
   displayList(allStudents);
   showAbout(allStudents);
+}
+
+// BLOOD STATUS CHECK
+function getBloodStatus(student) {
+  if (bloodStatusJSON.pure.indexOf(student.lastName) > -1) {
+    return "pure";
+  } else if (bloodStatusJSON.half.indexOf(student.lastName) > -1) {
+    return "half-blood";
+  } else {
+    return "muggle";
+  }
 }
 
 function capitalize(str) {
@@ -255,15 +276,15 @@ function isSquad(student) {
 }
 
 function isMuggle(student) {
-  return student.bloodStatus === "Muggles";
+  return student.bloodStatus === "muggle";
 }
 
 function isHalf(student) {
-  return student.bloodStatus === "halfblood";
+  return student.bloodStatus === "half-blood";
 }
 
 function isPure(student) {
-  return student.bloodStatus === "pureblood";
+  return student.bloodStatus === "pure";
 }
 
 // SORTING
@@ -366,8 +387,6 @@ function displayStudent(student) {
     clone.querySelector(".prefect_icon").setAttribute("fill", "#000000");
   }
 
-  getBloodline();
-
   // append clone to list
   document.querySelector("#list").appendChild(clone);
 }
@@ -437,6 +456,3 @@ function makeMember(student) {
     alert("You can't make a non-Slytherin a member of the Inquisitorial squad");
   }
 }
-
-// FIGURE BLOODLINE
-function getBloodline(student) {}
