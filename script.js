@@ -400,15 +400,43 @@ function openModal(student) {
   document.querySelector("#popup").classList.remove("hidden");
   document.querySelector("img.student_img").src = student.portrait;
   document.querySelector("p.firstName").textContent = `First name: ${student.firstName}`;
-  document.querySelector("p.middleName").textContent = `Middle name: ${student.middleName}`;
   document.querySelector("p.lastName").textContent = `Last name: ${student.lastName}`;
-  document.querySelector("p.nickName").textContent = `Nickname: ${student.nickName}`;
-  document.querySelector("p.bloodStatus").textContent = `Blood Status: pure`;
-  document.querySelector("p.prefect").textContent = `Prefect: no`;
-  document.querySelector("p.squad").textContent = `Member of inquisitorial squad: no`;
+  document.querySelector("p.bloodStatus").textContent = `Blood Status: ${student.bloodStatus}`;
+  if (student.middleName === undefined) {
+    document.querySelector("p.middleName").textContent = `Middle name: N/A`;
+  } else {
+    document.querySelector("p.middleName").textContent = `Middle name: ${student.middleName}`;
+  }
+  if (student.nickname === undefined) {
+    document.querySelector("p.nickName").textContent = `Nickname: N/A`;
+  } else {
+    document.querySelector("p.nickName").textContent = `Nickname: ${student.nickName}`;
+  }
+  if (student.prefect) {
+    document.querySelector("p.prefect").textContent = `Prefect: yes`;
+  } else {
+    document.querySelector("p.prefect").textContent = `Prefect: no`;
+  }
+  if (student.squad) {
+    document.querySelector("p.squad").textContent = `Member of inquisitorial squad: yes`;
+  } else {
+    document.querySelector("p.squad").textContent = `Member of inquisitorial squad: no`;
+  }
+  if (student.expelled) {
+    document.querySelector("p.expelled").textContent = `Expelled: yes`;
+  } else {
+    document.querySelector("p.expelled").textContent = `Expelled: no`;
+  }
   document.querySelector("p.house").textContent = `House: ${student.house}`;
-  document.querySelector("p.expelled").textContent = `Expelled: no`;
   document.querySelector("div.close").addEventListener("click", closeModal);
+
+  let selectedHouse = student.house;
+
+  if (selectedHouse) {
+    document.querySelector("#popup_section").classList.value = "";
+    document.querySelector("#popup_section").classList.add(student.house);
+    document.querySelector(".house_img").src = "images/" + selectedHouse + ".webp";
+  }
 }
 
 // MAKE PREFECT

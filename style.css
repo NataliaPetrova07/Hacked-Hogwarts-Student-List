@@ -12,7 +12,7 @@
   --c-slytherin: #3f7956;
   --c-hufflepuff: #cdb371;
   --c-yellow: #b48203;
-  --margin-desktop: 330px;
+  --margin-desktop: 25%;
   --font-1: "Martel Sans", sans-serif;
   --font-2: "Fredericka the Great", cursive;
 }
@@ -178,16 +178,16 @@ tr {
   left: 30vw;
   font-size: 0.9rem;
 }
-.ravenclaw {
+.Ravenclaw {
   background-color: var(--c-ravenclaw);
 }
-.hufflepuff {
+.Hufflepuff {
   background-color: var(--c-hufflepuff);
 }
-.slytherin {
+.Slytherin {
   background-color: var(--c-slytherin);
 }
-.gryffindor {
+.Gryffindor {
   background-color: var(--c-gryffindor);
 }
 p.house {
@@ -209,7 +209,7 @@ p.house {
   justify-self: center;
 }
 
-.popup_section {
+#popup_section {
   position: relative;
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -243,9 +243,71 @@ button {
   :root {
     --margin-desktop: 100px;
   }
+  * {
+    font-size: 1rem;
+  }
+  h1 {
+    font-size: 1.7rem;
+  }
+  h1 {
+    font-size: 1.5rem;
+  }
+  #popup {
+    top: 30vh;
+    width: 60vw;
+    left: 18vw;
+  }
 }
 @media only screen and (max-width: 700px) {
   :root {
-    --margin-desktop: 10px;
+    --margin-desktop: 20px;
+  }
+  h1 {
+    font-size: 1.5rem;
+  }
+  h2,
+  button.filter,
+  #list_info p,
+  #list_info span {
+    font-size: 0.7rem;
+  }
+  tr {
+    row-gap: 5px;
+    grid-template-columns: repeat(4, 1fr);
+    justify-items: center;
+  }
+  .expelbtn {
+    padding: 10px;
+    grid-column: 3 / span 2;
+    width: 80%;
+  }
+  .sorting {
+    padding-left: 0;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+  }
+  #list_sorting > div > button {
+    width: 100%;
+    font-size: 0.7rem;
+  }
+  #list tr {
+    padding: 10px 0;
+  }
+  #popup {
+    top: 30vh;
+    width: 90vw;
+    left: 5vw;
+  }
+  #popup_section p {
+    font-size: 0.7rem;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  * {
+    font-size: 0.9rem;
+  }
+  #popup_section {
+    grid-template-columns: 1fr 1fr;
   }
 }
