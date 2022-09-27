@@ -235,6 +235,7 @@ function filterList(filteredList) {
     filteredList = allStudents.filter(isSquad);
   } else if (settings.filterBy === "expelled") {
     filteredList = allStudents.filter(isExpelled);
+    document.querySelector("h1").textContent = "Expelled students";
   } else if (settings.filterBy === "muggles") {
     filteredList = allStudents.filter(isMuggle);
   } else if (settings.filterBy === "pureblood") {
@@ -478,9 +479,9 @@ function clickSquad(student) {
 }
 
 function makeMember(student) {
-  if (student.house === "Slytherin") {
+  if (student.house === "Slytherin" && student.bloodStatus === "pure") {
     student.squad = true;
   } else {
-    alert("You can't make a non-Slytherin a member of the Inquisitorial squad");
+    alert("You can't make a muggle or non-Slytherin a member of the Inquisitorial squad");
   }
 }
