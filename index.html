@@ -10,51 +10,44 @@
   <body>
     <header>
       <div class="dark_header">
-        <p>Hogwarts logo</p>
-        <input type="text" id="site_search" placeholder="Type student’s name" /> <button>SEARCH</button>
+        <img class="hogwarts_logo" src="/images/hogwarts-logo-svg-vector.svg" alt="hogwarts logo" />
+        <div class="search">
+          <input type="text" id="site_search" placeholder="Type student’s name" /><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+          </svg>
+        </div>
       </div>
       <div id="filters">
+        <h2>Filters:</h2>
         <button class="filter" data-action="filter" data-filter="all">All students</button>
         <button class="filter" data-action="filter" data-filter="expelled">Expelled students</button>
-        <div id="houses">
-          <label for="houses">Houses</label>
-          <div class="dropdown">
-            <button class="filter" data-action="filter" data-filter="slytherin">Slytherin</button>
-            <button class="filter" data-action="filter" data-filter="hufflepuff">Hufflepuff</button>
-            <button class="filter" data-action="filter" data-filter="gryffindor">Gryffindor</button>
-            <button class="filter" data-action="filter" data-filter="ravenclaw">Ravenclaw</button>
-          </div>
-        </div>
-        <div id="bloodline">
-          <label for="bloodline">Blood Status</label>
-          <div class="dropdown">
-            <button class="filter" data-action="filter" data-filter="muggles">Muggles</button>
-            <button class="filter" data-action="filter" data-filter="halfblood">Half-Blood</button>
-            <button class="filter" data-action="filter" data-filter="pureblood">Pure Blood</button>
-          </div>
-        </div>
+        <button class="filter" data-action="filter" data-filter="slytherin">Slytherin</button>
+        <button class="filter" data-action="filter" data-filter="hufflepuff">Hufflepuff</button>
+        <button class="filter" data-action="filter" data-filter="gryffindor">Gryffindor</button>
+        <button class="filter" data-action="filter" data-filter="ravenclaw">Ravenclaw</button>
+        <button class="filter" data-action="filter" data-filter="muggles">Muggles</button>
+        <button class="filter" data-action="filter" data-filter="halfblood">Half-Blood</button>
+        <button class="filter" data-action="filter" data-filter="pureblood">Pure Blood</button>
         <button class="filter" data-action="filter" data-filter="squad">Inquisitorial Squad</button>
         <button class="filter" data-action="filter" data-filter="prefects">Prefects</button>
       </div>
     </header>
     <main>
-      <h1>Student List</h1>
+      <h1>Hogwarts Student List</h1>
       <div id="list_info">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
-          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-          <path
-            d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
-          />
-        </svg>
-        <div>
+        <div class="info_flex">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+            <path
+              d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
+            />
+          </svg>
           <p>Number of students in the list: <span id="current_students_nr">30</span></p>
-          <div class="info_flex">
-            <p>Expelled: <span id="expelled_students_nr">30</span></p>
-            <p>Gryffindor: <span id="gryffindor_students_nr">30</span></p>
-            <p>Slytherin: <span id="slytherin_students_nr">30</span></p>
-            <p>Ravenclaw: <span id="ravenclaw_students_nr">30</span></p>
-            <p>Hufflepuff: <span id="hufflepuff_students_nr">30</span></p>
-          </div>
+          <p>Expelled: <span id="expelled_students_nr">30</span></p>
+          <p>Gryffindor: <span id="gryffindor_students_nr">30</span></p>
+          <p>Slytherin: <span id="slytherin_students_nr">30</span></p>
+          <p>Ravenclaw: <span id="ravenclaw_students_nr">30</span></p>
+          <p>Hufflepuff: <span id="hufflepuff_students_nr">30</span></p>
         </div>
       </div>
       <div id="list_sorting">
@@ -139,7 +132,7 @@
         </div>
       </div>
     </main>
-    <footer>Natália Petrová 2022</footer>
+    <footer>Natália Petrová 2022 | <a href="https://www.freepik.com/free-vector/watercolour-background-with-leaves_15206849.htm#query=paper&position=9&from_view=search">Image by VecMes</a> on Freepik</footer>
     <script src="script.js"></script>
   </body>
 </html>
