@@ -7,11 +7,19 @@
   --c-black-75: #404040;
   --c-black-50: #7a7a7a;
   --c-black-25: #c0c0c0;
-  --c-blue: #7bafd4;
+  --c-ravenclaw: #219ec6;
+  --c-gryffindor: #c23229;
+  --c-slytherin: #3f7956;
+  --c-hufflepuff: #cdb371;
   --c-yellow: #b48203;
   --margin-desktop: 330px;
   --font-1: "Martel Sans", sans-serif;
   --font-2: "Fredericka the Great", cursive;
+}
+
+a {
+  list-style: none;
+  color: var(--c-yellow);
 }
 
 * {
@@ -22,14 +30,13 @@
   list-style: none;
   font-family: var(--font-1);
 }
-h1,
-h2 {
+h1 {
   font-family: var(--font-2);
 }
 
 h2 {
   color: var(--c-yellow);
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 #list td {
@@ -169,6 +176,37 @@ tr {
   height: auto;
   top: 40vh;
   left: 30vw;
+  font-size: 0.9rem;
+}
+.ravenclaw {
+  background-color: var(--c-ravenclaw);
+}
+.hufflepuff {
+  background-color: var(--c-hufflepuff);
+}
+.slytherin {
+  background-color: var(--c-slytherin);
+}
+.gryffindor {
+  background-color: var(--c-gryffindor);
+}
+p.house {
+  margin-top: auto;
+}
+.house_img {
+  width: 100%;
+  height: auto;
+}
+#list tr {
+  border-bottom: 1px solid var(--c-black-25);
+}
+
+#list tr:hover {
+  background-color: var(--c-white);
+}
+
+.info {
+  justify-self: center;
 }
 
 .popup_section {
