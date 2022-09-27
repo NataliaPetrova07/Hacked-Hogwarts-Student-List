@@ -11,7 +11,7 @@ const Student = {
   lastName: "-unknown-",
   house: "-unknown-",
   portrait: "",
-  bloodStatus: "",
+  bloodStatus: "-unknown-",
   prefect: false,
   expelled: false,
   squad: false,
@@ -110,6 +110,7 @@ function getNameParts(jsonData) {
     const lastSpace = fullname.lastIndexOf(" ");
     const firstticks = fullname.indexOf(`"`);
     const lastticks = fullname.lastIndexOf(`"`);
+    const bloodStatus = jsonObject.bloodStatus;
 
     let nickname = fullname.substring(firstticks + 1, lastticks);
     let firstName = "";
@@ -158,6 +159,7 @@ function getNameParts(jsonData) {
     student.lastName = lastName;
     student.nickname = nickname;
     student.house = house;
+    student.bloodStatus = "Muggles";
 
     if (lastName !== undefined) {
       student.portrait = "images/" + student.lastName.toLowerCase() + "_" + student.firstName[0].toLowerCase() + ".png";
@@ -208,8 +210,16 @@ function filterList(filteredList) {
     filteredList = allStudents.filter(isRavenclaw);
   } else if (settings.filterBy === "prefects") {
     filteredList = allStudents.filter(isPrefect);
+  } else if (settings.filterBy === "squad") {
+    filteredList = allStudents.filter(isSquad);
   } else if (settings.filterBy === "expelled") {
     filteredList = allStudents.filter(isExpelled);
+  } else if (settings.filterBy === "muggles") {
+    filteredList = allStudents.filter(isMuggle);
+  } else if (settings.filterBy === "pureblood") {
+    filteredList = allStudents.filter(isPure);
+  } else if (settings.filterBy === "halfblood") {
+    filteredList = allStudents.filter(isHalf);
   }
   // console.log("allStudents:", allStudents);
   // console.log("filtered list:", filteredList);
@@ -238,6 +248,22 @@ function isPrefect(student) {
 
 function isExpelled(student) {
   return student.expelled === true;
+}
+
+function isSquad(student) {
+  return student.squad === true;
+}
+
+function isMuggle(student) {
+  return student.bloodStatus === "Muggles";
+}
+
+function isHalf(student) {
+  return student.bloodStatus === "halfblood";
+}
+
+function isPure(student) {
+  return student.bloodStatus === "pureblood";
 }
 
 // SORTING
@@ -322,10 +348,25 @@ function displayStudent(student) {
   clone.querySelector("[data-field=student_info]").addEventListener("click", () => openModal(student));
   clone.querySelector(".expelbtn").addEventListener("click", () => expelStudent(student));
   clone.querySelector("[data-field=prefect]").addEventListener("click", () => clickPrefect(student));
+  clone.querySelector("[data-field=squad]").addEventListener("click", () => clickSquad(student));
 
   if (student.expelled === true) {
     clone.querySelector(".expelbtn").classList.add("hidden");
   }
+
+  if (student.squad === false) {
+    clone.querySelector(".squad_icon").setAttribute("fill", "#c0c0c0");
+  } else {
+    clone.querySelector(".squad_icon").setAttribute("fill", "#000000");
+  }
+
+  if (student.prefect === false) {
+    clone.querySelector(".prefect_icon").setAttribute("fill", "#c0c0c0");
+  } else {
+    clone.querySelector(".prefect_icon").setAttribute("fill", "#000000");
+  }
+
+  getBloodline();
 
   // append clone to list
   document.querySelector("#list").appendChild(clone);
@@ -353,55 +394,49 @@ function openModal(student) {
 
 // MAKE PREFECT
 function clickPrefect(student) {
-  console.log("user clicked prefect");
   if (student.prefect === true) {
     student.prefect = false;
+    console.log("user clicked remove prefect");
   } else {
     makePrefect(student);
+    console.log("user clicked make prefect");
   }
+  buildList();
 }
 
 function makePrefect(student) {
   console.log("making a prefect");
-  let slytherinPrefects = allStudents.filter(isSlytherin);
-  let hufflepuffPrefects = allStudents.filter(isHufflepuff);
-  let gryffindorPrefects = allStudents.filter(isGryffindor);
-  let ravenclawPrefects = allStudents.filter(isRavenclaw);
-  slytherinPrefects = slytherinPrefects.filter(isPrefect);
-  hufflepuffPrefects = hufflepuffPrefects.filter(isPrefect);
-  gryffindorPrefects = gryffindorPrefects.filter(isPrefect);
-  ravenclawPrefects = ravenclawPrefects.filter(isPrefect);
-  const numberOfSlytherinPrefects = slytherinPrefects.length;
-  const numberOfHufflepuffPrefects = hufflepuffPrefects.length;
-  const numberOfGryffindorPrefects = gryffindorPrefects.length;
-  const numberOfRavenclawPrefects = ravenclawPrefects.length;
-  if (student.house === "Slytherin") {
-    if (numberOfSlytherinPrefects >= 2) {
-      alert("there can only be 2 prefects in the same house");
-    } else {
-      student.prefect = true;
-    }
+  let sameHouseStudents = allStudents.filter((houseStudent) => {
+    return student.house === houseStudent.house;
+  });
+  let prefectsOfSameHouse = sameHouseStudents.filter((sameHouseStudent) => {
+    return sameHouseStudent.prefect;
+  });
+  if (prefectsOfSameHouse.length >= 2) {
+    alert("There can only be 2 prefects in the same house");
+  } else {
+    student.prefect = true;
   }
-  if (student.house === "Hufflepuff") {
-    if (numberOfHufflepuffPrefects >= 2) {
-      alert("there can only be 2 prefects in the same house");
-    } else {
-      student.prefect = true;
-    }
-  }
-  if (student.house === "Gryffindor") {
-    if (numberOfGryffindorPrefects >= 2) {
-      alert("there can only be 2 prefects in the same house");
-    } else {
-      student.prefect = true;
-    }
-  }
-  if (student.house === "Ravenclaw") {
-    if (numberOfRavenclawPrefects >= 2) {
-      alert("there can only be 2 prefects in the same house");
-    } else {
-      student.prefect = true;
-    }
+}
+
+// MAKE MEMBER OF INQUISITORIAL SQUAD
+function clickSquad(student) {
+  console.log("user clicked squad");
+  if (student.squad === true) {
+    student.squad = false;
+  } else {
+    makeMember(student);
   }
   buildList();
 }
+
+function makeMember(student) {
+  if (student.house === "Slytherin") {
+    student.squad = true;
+  } else {
+    alert("You can't make a non-Slytherin a member of the Inquisitorial squad");
+  }
+}
+
+// FIGURE BLOODLINE
+function getBloodline(student) {}
