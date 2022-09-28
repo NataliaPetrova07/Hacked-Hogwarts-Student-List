@@ -242,6 +242,8 @@ function filterList(filteredList) {
     filteredList = allStudents.filter(isPure);
   } else if (settings.filterBy === "halfblood") {
     filteredList = allStudents.filter(isHalf);
+  } else if (settings.filterBy === "all") {
+    filteredList = allStudents.filter(filterAll);
   }
   // console.log("allStudents:", allStudents);
   // console.log("filtered list:", filteredList);
@@ -286,6 +288,10 @@ function isHalf(student) {
 
 function isPure(student) {
   return student.bloodStatus === "pure";
+}
+
+function filterAll(student) {
+  return true;
 }
 
 // SORTING
@@ -462,6 +468,8 @@ function makePrefect(student) {
   });
   if (prefectsOfSameHouse.length >= 2) {
     alert("There can only be 2 prefects in the same house");
+  } else if (student.expelled === true) {
+    alert("Expelled students can't be made prefects");
   } else {
     student.prefect = true;
   }
@@ -481,6 +489,8 @@ function clickSquad(student) {
 function makeMember(student) {
   if (student.house === "Slytherin" && student.bloodStatus === "pure") {
     student.squad = true;
+  } else if (student.expelled === true) {
+    alert("Expelled students can't be made members of the Inquisitorial squad");
   } else {
     alert("You can't make a muggle or non-Slytherin a member of the Inquisitorial squad");
   }
