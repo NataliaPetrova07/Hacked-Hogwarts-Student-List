@@ -239,6 +239,36 @@ button {
   cursor: pointer;
 }
 
+.blinking {
+  animation: color-change 1s 3;
+}
+
+@keyframes color-change {
+  0% {
+    color: #c23229;
+  }
+  50% {
+    color: #1e1919;
+  }
+  100% {
+    color: #c23229;
+  }
+}
+
+.fade {
+  animation: fadeOut 3s infinite;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* MEDIA QUERIES */
 @media only screen and (max-width: 1024px) {
   :root {
     --margin-desktop: 100px;

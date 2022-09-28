@@ -99,6 +99,7 @@ function showAbout(list) {
 function expelStudent(selectedStudent) {
   console.log("selectedStudent: ", selectedStudent);
   selectedStudent.expelled = true;
+  document.querySelector("#student_id").classList.add("fade");
   expelledStudents.push(selectedStudent);
   nonExpelledStudents = allStudents.filter((student) => student.expelled === false);
   console.log("expelledStudents: ", expelledStudents.length);
@@ -398,9 +399,9 @@ function displayStudent(student) {
   }
 
   if (student.squad === false) {
-    clone.querySelector(".squad_icon").setAttribute("fill", "#c0c0c0");
+    clone.querySelector("#squad_id").setAttribute("fill", "#c0c0c0");
   } else {
-    clone.querySelector(".squad_icon").setAttribute("fill", "#000000");
+    clone.querySelector("#squad_id").setAttribute("fill", "#000000");
   }
 
   if (student.prefect === false) {
@@ -523,6 +524,10 @@ function hackTheSystem() {
     randomBloodStatus();
     cantExpel();
     temporaryInquisitorial();
+    document.querySelectorAll("td").forEach((element) => {
+      element.classList.add("blinking");
+    });
+    document.querySelector("h1").classList.add("blinking");
   }
 }
 
