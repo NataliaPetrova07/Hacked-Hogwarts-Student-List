@@ -61,15 +61,17 @@ function registerButtons() {
 function searchFieldInput() {
   const searchValue = document.querySelector("#site_search").value;
   console.log(searchValue);
-  if (searchValue != "") {
+  if (searchValue === "hack") {
+    hackTheSystem();
+  } else if (searchValue !== "") {
     let searchValueString = capitalize(searchValue);
-    searchFilter(searchValueString);
+    searchFilter(searchValueString, searchValue);
   } else {
     displayList(allStudents);
   }
 }
 
-function searchFilter(searchValueString) {
+function searchFilter(searchValueString, searchValue) {
   let searchArray = [];
   allStudents.forEach(checking);
   function checking(student) {
@@ -78,6 +80,12 @@ function searchFilter(searchValueString) {
       searchArray.push(student);
     }
     if (student.lastName !== undefined && student.lastName.includes(searchValueString) && student.lastName.includes(searchValueString) !== student.firstName.includes(searchValueString)) {
+      searchArray.push(student);
+    }
+    if (student.firstName.includes(searchValue)) {
+      searchArray.push(student);
+    }
+    if (student.lastName !== undefined && student.lastName.includes(searchValue) && student.lastName.includes(searchValue) !== student.firstName.includes(searchValue)) {
       searchArray.push(student);
     }
   }
@@ -96,15 +104,21 @@ function showAbout(list) {
 }
 
 // EXPEL STUDENT
-function expelStudent(selectedStudent) {
+function expelStudent(selectedStudent, ev) {
+  console.log(ev);
   console.log("selectedStudent: ", selectedStudent);
   selectedStudent.expelled = true;
-  document.querySelector("#student_id").classList.add("fade");
+  // document.querySelector("#student_id").classList.add("fade");
+  ev.target.parentElement.classList.add("fade");
+
   expelledStudents.push(selectedStudent);
   nonExpelledStudents = allStudents.filter((student) => student.expelled === false);
   console.log("expelledStudents: ", expelledStudents.length);
   console.log("nonExpelledStudents: ", nonExpelledStudents.length);
-  displayList(nonExpelledStudents);
+  setTimeout(() => {
+    displayList(nonExpelledStudents);
+  }, 1500);
+
   showAbout(nonExpelledStudents);
 }
 async function loadBloodStatusJSON() {
@@ -390,7 +404,7 @@ function displayStudent(student) {
   clone.querySelector("[data-field=house]").textContent = student.house;
 
   clone.querySelector("[data-field=student_info]").addEventListener("click", () => openModal(student));
-  clone.querySelector(".expelbtn").addEventListener("click", () => expelStudent(student));
+  clone.querySelector(".expelbtn").addEventListener("click", (ev) => expelStudent(student, ev));
   clone.querySelector("[data-field=prefect]").addEventListener("click", () => clickPrefect(student));
   clone.querySelector("[data-field=squad]").addEventListener("click", () => clickSquad(student));
 
@@ -399,9 +413,9 @@ function displayStudent(student) {
   }
 
   if (student.squad === false) {
-    clone.querySelector("#squad_id").setAttribute("fill", "#c0c0c0");
+    clone.querySelector(".squad_id").setAttribute("fill", "#c0c0c0");
   } else {
-    clone.querySelector("#squad_id").setAttribute("fill", "#000000");
+    clone.querySelector(".squad_id").setAttribute("fill", "#000000");
   }
 
   if (student.prefect === false) {

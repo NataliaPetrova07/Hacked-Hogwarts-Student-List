@@ -256,7 +256,7 @@ button {
 }
 
 .fade {
-  animation: fadeOut 3s infinite;
+  animation: fadeOut 1.5s infinite;
 }
 
 @keyframes fadeOut {
