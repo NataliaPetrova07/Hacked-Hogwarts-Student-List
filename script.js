@@ -108,9 +108,7 @@ function expelStudent(selectedStudent, ev) {
   console.log(ev);
   console.log("selectedStudent: ", selectedStudent);
   selectedStudent.expelled = true;
-  // document.querySelector("#student_id").classList.add("fade");
   ev.target.parentElement.classList.add("fade");
-
   expelledStudents.push(selectedStudent);
   nonExpelledStudents = allStudents.filter((student) => student.expelled === false);
   console.log("expelledStudents: ", expelledStudents.length);
@@ -121,6 +119,8 @@ function expelStudent(selectedStudent, ev) {
 
   showAbout(nonExpelledStudents);
 }
+
+// LOAD JSON
 async function loadBloodStatusJSON() {
   const response = await fetch(url2);
   let jsonData = await response.json();
@@ -134,6 +134,7 @@ async function loadStudentsJSON() {
   getNameParts(jsonData);
 }
 
+// CLEAN DATA
 function getNameParts(jsonData) {
   jsonData.forEach((jsonObject) => {
     // Create new object
