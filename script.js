@@ -522,13 +522,26 @@ function hackTheSystem() {
     buildList();
     randomBloodStatus();
     cantExpel();
+    temporaryInquisitorial();
   }
 }
 
 function cantExpel() {
-  var fnChanger = function () {
-    return function () {
-      alert("you have no power here");
+  var fnChanger = function (student) {
+    console.log(student);
+
+    return function (student) {
+      if (student.firstName === "Natália") {
+        alert("you have no power here");
+      } else {
+        student.expelled = true;
+        expelledStudents.push(student);
+        nonExpelledStudents = allStudents.filter((student) => student.expelled === false);
+        console.log("expelledStudents: ", expelledStudents.length);
+        console.log("nonExpelledStudents: ", nonExpelledStudents.length);
+        displayList(nonExpelledStudents);
+        showAbout(nonExpelledStudents);
+      }
     };
   };
   expelStudent = fnChanger();
@@ -542,4 +555,30 @@ function randomBloodStatus() {
       return student;
     });
   }
+}
+
+function temporaryInquisitorial() {
+  var fnChanger = function (student) {
+    return function (student) {
+      if (student.house === "Slytherin" && student.bloodStatus === "pure") {
+        function makingTemporaryInquisitorial() {
+          student.squad = true;
+          console.log("added a squad member");
+          buildList();
+          setTimeout(() => {
+            student.squad = false;
+            alert("the member will be removed");
+            console.log("removed a squad member");
+            buildList();
+          }, 1000);
+        }
+        makingTemporaryInquisitorial();
+      } else if (student.expelled === true) {
+        alert("Expelled students can't be made members of the Inquisitorial squad");
+      } else {
+        alert("You can't make a muggle or non-Slytherin a member of the Inquisitorial squad");
+      }
+    };
+  };
+  makeMember = fnChanger();
 }
