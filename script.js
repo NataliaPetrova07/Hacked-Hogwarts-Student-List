@@ -23,10 +23,25 @@ const settings = {
   sortDir: "asc",
 };
 
-const allStudents = [];
+const myself = {
+  firstName: "Natália",
+  middleName: "N/A",
+  lastName: "Petrová",
+  nickName: "Lil P",
+  house: "Hufflepuff",
+  gender: "girl",
+  portrait: "/images/natalia_p.png",
+  bloodStatus: "muggle",
+  prefect: false,
+  expelled: false,
+  squad: false,
+};
+
+let allStudents = [];
 const expelledStudents = [];
 let nonExpelledStudents = [];
 let bloodStatusJSON = {};
+let isHacking = false;
 
 async function start() {
   console.log("ready");
@@ -493,5 +508,38 @@ function makeMember(student) {
     alert("Expelled students can't be made members of the Inquisitorial squad");
   } else {
     alert("You can't make a muggle or non-Slytherin a member of the Inquisitorial squad");
+  }
+}
+
+// HACKING
+function hackTheSystem() {
+  if (isHacking) {
+    return;
+  } else {
+    isHacking = true;
+    allStudents.push(myself);
+    console.error("✨ ლ(ಠ益ಠ)ლ ✨");
+    buildList();
+    randomBloodStatus();
+    cantExpel();
+  }
+}
+
+function cantExpel() {
+  var fnChanger = function () {
+    return function () {
+      alert("you have no power here");
+    };
+  };
+  expelStudent = fnChanger();
+}
+
+function randomBloodStatus() {
+  if (isHacking) {
+    allStudents = allStudents.map(function (student) {
+      const bloodStatusTypes = ["pure", "half-blood", "muggle"];
+      student.bloodStatus = bloodStatusTypes[Math.floor(Math.random() * 3)];
+      return student;
+    });
   }
 }
